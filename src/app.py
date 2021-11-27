@@ -23,3 +23,7 @@ def load_model(h5_path, img_size=512, channels=1):
     unet.load_weights(h5_path)
 
     return unet 
+
+@app.route('/preict')
+def predict_mask():
+    pass
