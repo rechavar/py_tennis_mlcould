@@ -1,0 +1,7 @@
+albumentations
+tensorflow-gpu>=2.0
+opencv-python-headless
+pandas
+numpy
+scikit-learn
+azureml-core
