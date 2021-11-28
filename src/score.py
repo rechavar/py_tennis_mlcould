@@ -59,14 +59,14 @@ def get_unet_model(input_shape, num_classes):
 
 # Some Usefull functions
 def prep_img(image):
-    img = cv2.cvtColor(image, cv2.COLOR_BAYER_BG2GRAY)
+    img = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
     riseze_img = cv2.resize(img,(512, 512), interpolation= cv2.INTER_AREA)
 
-    return np.stack(riseze_img)
+    return np.stack([riseze_img])
 
 
 def decode_prediction(pred):
-  mask = np.zeros((pred.shape[0], pred.shape[0]))
+  mask = np.zeros((pred.shape[0], pred.shape[1]))
 
   for i in range(pred.shape[0]):
     for j in range(pred.shape[1]):
@@ -87,11 +87,9 @@ def run(request):
     if request.method == 'POST':
         file_bytes = request.files["image"]
         image = Image.open(file_bytes).convert('RGB')
-        img_ready = np.asarray(image, dtype=np.int)
+        img_ready = prep_img(np.array(image))
 
-        prediction = unet.predict(np.stack(img_ready))
-
-        mask = decode_prediction(prediction)
+        prediction = unet.predict(img_ready)
         
-        return AMLResponse(json.dumps(mask), 200)
+        return AMLResponse(json.dumps(prediction.tolist()), 200)
 

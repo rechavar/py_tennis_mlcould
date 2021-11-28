@@ -41,7 +41,7 @@ gpu_aks_config = AciWebservice.deploy_configuration(cpu_cores=1, memory_gb=1)
 
 
 web_service = Model.deploy(workspace=ws,
-                        name='pytennis-ml-17',
+                        name='pytennis-ml-19',
                         models=[model],
                         inference_config=inferece_config,
                         deployment_target=aks_target,
